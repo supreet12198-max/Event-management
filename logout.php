@@ -1,18 +1,20 @@
 <?php
 session_start();
 
-// unset all session variables
+// UNSET ALL SESSION VARIABLES
 $_SESSION = [];
 
-// destroy session
+// DESTROY SESSION
 session_destroy();
 
-// prevent caching (optional but recommended)
+// PREVENT CACHE
 header("Cache-Control: no-cache, no-store, must-revalidate");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-// redirect to login page
-header("Location: login.php");
-exit();
+// ALERT + REDIRECT
+echo "<script>
+        alert('Logout Successfully');
+        window.location='login.php';
+      </script>";
 ?>
