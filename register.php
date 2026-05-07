@@ -1,80 +1,68 @@
 <?php
-session_start();
 include("db.php");
 
 if(isset($_POST['register'])){
 
     $username = $_POST['username'];
-    $email = $_POST['email'];
     $password = $_POST['password'];
-    $role = "user"; // default role
 
-    // simple validation
-    if(!empty($username) && !empty($email) && !empty($password)){
+    // HASH PASSWORD
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // password hash
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // INSERT USER
+    $query = "INSERT INTO users(username,password)
+              VALUES('$username','$hashed_password')";
 
-        // insert query
-        $query = "INSERT INTO users (username, email, password, role) 
-                  VALUES ('$username', '$email', '$hashed_password', '$role')";
+    mysqli_query($conn, $query);
 
-        if(mysqli_query($conn, $query)){
-            echo "<script>alert('Registration Successful'); window.location='login.php';</script>";
-        } else {
-            echo "<script>alert('Error');</script>";
-        }
-
-    } else {
-        echo "<script>alert('Please fill all fields');</script>";
-    }
+    echo "<script>
+            alert('Registration Successful');
+            window.location='login.php';
+          </script>";
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+<title>Register</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body class="bg-light">
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
 
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h4>Register</h4>
-                </div>
+<div class="col-md-4 mx-auto card p-4 shadow">
 
-                <div class="card-body">
-                    <form method="POST">
+<h3 class="text-center mb-4">Register</h3>
 
-                        <input type="text" name="username" class="form-control mb-3" placeholder="Username">
+<form method="POST">
 
-                        <input type="email" name="email" class="form-control mb-3" placeholder="Email">
+<input type="text"
+       name="username"
+       class="form-control mb-3"
+       placeholder="Enter Username"
+       required>
 
-                        <input type="password" name="password" class="form-control mb-3" placeholder="Password">
+<input type="password"
+       name="password"
+       class="form-control mb-3"
+       placeholder="Enter Password"
+       required>
 
-                        <button type="submit" name="register" class="btn btn-primary w-100">
-                            Register
-                        </button>
+<button type="submit"
+        name="register"
+        class="btn btn-primary w-100">
+    Register
+</button>
 
-                    </form>
+</form>
 
-                    <p class="mt-3 text-center">
-                        Already have an account? <a href="login.php">Login</a>
-                    </p>
-                </div>
+</div>
 
-            </div>
-
-        </div>
-    </div>
 </div>
 
 </body>
