@@ -7,32 +7,37 @@ if(isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if(!empty($username) && !empty($password)){
+    // FIND USER
+    $query = "SELECT * FROM users WHERE username='$username'";
+    $result = mysqli_query($conn, $query);
 
-        $query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
-        $result = mysqli_query($conn, $query);
+    if(mysqli_num_rows($result) > 0){
 
-        if(mysqli_num_rows($result) > 0){
+        $row = mysqli_fetch_assoc($result);
 
-            $user = mysqli_fetch_assoc($result);
+        // VERIFY PASSWORD
+        if(password_verify($password, $row['password'])){
 
-            if(password_verify($password, $user['password'])){
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
 
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
-
-                echo "<script>alert('Login Successful'); window.location='dashboard.php';</script>";
-
-            } else {
-                echo "<script>alert('Wrong Password');</script>";
-            }
+            echo "<script>
+                    alert('Login Successful');
+                    window.location='dashboard.php';
+                  </script>";
 
         } else {
-            echo "<script>alert('User Not Found');</script>";
+
+            echo "<script>
+                    alert('Wrong Password');
+                  </script>";
         }
 
     } else {
-        echo "<script>alert('Please fill all fields');</script>";
+
+        echo "<script>
+                alert('Username Not Found');
+              </script>";
     }
 }
 ?>
@@ -40,57 +45,44 @@ if(isset($_POST['login'])){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+<title>Login</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-    body{
-        background: linear-gradient(135deg, #f40bbe, #0b8bf4);
-        height: 100vh;
-    }
-
-    .card{
-        border-radius: 15px;
-        background: rgba(255,255,255,0.95);
-    }
-    </style>
 </head>
 
-<body>
+<body class="bg-light">
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
 
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h4>Login</h4>
-                </div>
+<div class="col-md-4 mx-auto card p-4 shadow">
 
-                <div class="card-body">
-                    <form method="POST">
+<h3 class="text-center mb-4">Login</h3>
 
-                        <input type="text" name="username" class="form-control mb-3" placeholder="Username">
+<form method="POST">
 
-                        <input type="password" name="password" class="form-control mb-3" placeholder="Password">
+<input type="text"
+       name="username"
+       class="form-control mb-3"
+       placeholder="Enter Username"
+       required>
 
-                        <button type="submit" name="login" class="btn btn-success w-100">
-                            Login
-                        </button>
+<input type="password"
+       name="password"
+       class="form-control mb-3"
+       placeholder="Enter Password"
+       required>
 
-                    </form>
+<button type="submit"
+        name="login"
+        class="btn btn-success w-100">
+    Login
+</button>
 
-                    <p class="mt-3 text-center">
-                        Don't have an account? <a href="register.php">Register</a>
-                    </p>
-                </div>
+</form>
 
-            </div>
+</div>
 
-        </div>
-    </div>
 </div>
 
 </body>
