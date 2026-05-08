@@ -3,41 +3,67 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Event Management System</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <style>
+
         body{
             font-family: 'Poppins', sans-serif;
-            background: #f5f7fa;
+            background: #f8f9fc;
         }
 
         .navbar{
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
         }
 
         .hero{
             height: 90vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b');
+
+            background:
+            linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+            url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b');
+
             background-size: cover;
             background-position: center;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+
             text-align: center;
+            color: white;
         }
 
         .hero h1{
-            font-size: 50px;
+            font-size: 55px;
+            font-weight: 700;
+        }
+
+        .hero p{
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .btn-custom{
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+
+        .section-title{
             font-weight: 600;
         }
 
@@ -49,91 +75,183 @@ session_start();
 
         .feature-card:hover{
             transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .feature-card i{
+            font-size: 40px;
+            color: #0d6efd;
         }
 
         footer{
-            margin-top: 50px;
+            margin-top: 60px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
+
     </style>
 </head>
 
 <body>
 
 <!-- NAVBAR -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
 
-    <span class="navbar-brand fw-bold">Event System</span>
+    <div class="container">
 
-    <div>
-        <a href="index.php" class="btn btn-outline-light me-2">Home</a>
+        <a class="navbar-brand fw-bold" href="#">
+            Event System
+        </a>
+
+        <div>
+
+            <!-- ALWAYS SHOW -->
+
+            <a href="index.php" class="btn btn-outline-light btn-sm me-2">
+                Home
+            </a>
+
+            <a href="dashboard.php" class="btn btn-success btn-sm me-2">
+                Dashboard
+            </a>
+
+            <a href="view_events.php" class="btn btn-primary btn-sm me-2">
+                Events
+            </a>
+
+            <a href="login.php" class="btn btn-outline-light btn-sm me-2">
+                Login
+            </a>
+
+            <a href="register.php" class="btn btn-warning btn-sm me-2">
+                Register
+            </a>
+
+            <a href="logout.php" class="btn btn-danger btn-sm">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <h1>
+            Manage Your Events Smartly
+        </h1>
+
+        <p class="mt-3">
+            Create, organize, and track your events effortlessly
+        </p>
+
+        <!-- ONLY ONE BUTTON SHOW -->
 
         <?php if(isset($_SESSION['username'])) { ?>
 
-            <a href="dashboard.php" class="btn btn-success me-2">Dashboard</a>
-            <a href="view_events.php" class="btn btn-primary me-2">Events</a>
-            <a href="logout.php" class="btn btn-danger">Logout</a>
+            <a href="dashboard.php"
+               class="btn btn-success btn-lg btn-custom mt-4">
+               Go to Dashboard
+            </a>
 
         <?php } else { ?>
 
-            <a href="login.php" class="btn btn-outline-light me-2">Login</a>
-            <a href="register.php" class="btn btn-warning">Register</a>
+            <a href="register.php"
+               class="btn btn-warning btn-lg btn-custom mt-4">
+               Get Started
+            </a>
 
         <?php } ?>
 
     </div>
 
-  </div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-    <div>
-        <h1>Manage Your Events Easily</h1>
-        <p class="mt-3">Create and manage events in a smart way</p>
-
-        <?php if(!isset($_SESSION['username'])) { ?>
-            <a href="register.php" class="btn btn-lg btn-warning mt-4">Get Started</a>
-        <?php } else { ?>
-            <a href="dashboard.php" class="btn btn-lg btn-success mt-4">Go to Dashboard</a>
-        <?php } ?>
-    </div>
-</div>
+</section>
 
 <!-- FEATURES -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Features</h2>
 
-    <div class="row text-center">
+<section class="container mt-5">
+
+    <h2 class="text-center section-title mb-5">
+        Features
+    </h2>
+
+    <div class="row g-4 text-center">
 
         <div class="col-md-4">
-            <div class="card p-4 feature-card shadow">
-                <h4>Create Events</h4>
-                <p>Create and manage events easily with full control.</p>
+
+            <div class="card p-4 feature-card shadow-sm">
+
+                <i class="bi bi-calendar-event mb-3"></i>
+
+                <h5>Create Events</h5>
+
+                <p class="text-muted">
+                    Quickly create and customize events with ease.
+                </p>
+
             </div>
+
         </div>
 
         <div class="col-md-4">
-            <div class="card p-4 feature-card shadow">
-                <h4>Manage Events</h4>
-                <p>Edit, delete and organize your events efficiently.</p>
+
+            <div class="card p-4 feature-card shadow-sm">
+
+                <i class="bi bi-pencil-square mb-3"></i>
+
+                <h5>Manage Events</h5>
+
+                <p class="text-muted">
+                    Edit, update, or delete events anytime.
+                </p>
+
             </div>
+
         </div>
 
         <div class="col-md-4">
-            <div class="card p-4 feature-card shadow">
-                <h4>Track Activity</h4>
-                <p>See all your created events in one place.</p>
+
+            <div class="card p-4 feature-card shadow-sm">
+
+                <i class="bi bi-bar-chart-line mb-3"></i>
+
+                <h5>Track Activity</h5>
+
+                <p class="text-muted">
+                    Monitor all your events in one dashboard.
+                </p>
+
             </div>
+
         </div>
 
     </div>
-</div>
+
+</section>
 
 <!-- FOOTER -->
-<footer class="bg-dark text-white text-center p-3">
-    © <?php echo date("Y"); ?> Event Management System | Developed by Kishita & Supreet
+
+<footer class="bg-dark text-white text-center py-3">
+
+    <div class="container">
+
+        © <?php echo date("Y"); ?> Event Management System
+
+        <br>
+
+        <small>
+            Developed by Kishita & Supreet
+        </small>
+
+    </div>
+
 </footer>
 
 </body>
